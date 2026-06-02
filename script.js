@@ -7,7 +7,7 @@ let demonsData = [];
 
 
 const PROXY = "https://corsproxy.io/?";
-const API_URL = "https://pointercrate.com/api/v2/demons/?limit=50&after=0";
+const API_URL = "https://api.demonlist.org";
 
 async function getDemons() {
     try {
@@ -19,7 +19,7 @@ async function getDemons() {
         renderList(demonsData);
     } catch (error) {
         console.error(error);
-        listContainer.innerHTML = `<div class="error">Error de conexión: Pointercrate bloqueó la petición local. Intenta recargar o usa un servidor web.</div>`;
+        listContainer.innerHTML = `<div class="error">Error de conexión: Pointercrate bloqueó la petición local. Intenta recargar.</div>`;
     }
 }
 
