@@ -20,8 +20,12 @@
     </header>
 
     <div class="container" id="listContainer">
-       
-        <div class="loading">Iniciando conexión segura...</div>
+        <div class="loading">
+            <div class="loading-dots">
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <p style="margin-top:10px; font-size:0.9rem;">Cargando niveles...</p>
+        </div>
     </div>
 
    
@@ -33,6 +37,7 @@
         </div>
     </div>
 
+    <div id="toast" class="toast"></div>
 
     <script src="DBLEVEL.js"></script>
     <script src="script.js"></script>

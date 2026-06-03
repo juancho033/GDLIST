@@ -9,10 +9,16 @@
 
 body {
     background-color: var(--bg);
+    background-image:
+        radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.02) 0%, transparent 40%),
+        radial-gradient(1px 1px at 20px 20px, rgba(255,255,255,0.03) 0%, transparent 0%);
+    background-size: 100% 100%, 100% 100%, 40px 40px;
     color: var(--text);
     font-family: 'Lexend', sans-serif;
     margin: 0;
     padding-bottom: 50px;
+    min-height: 100vh;
 }
 
 .header {
@@ -54,6 +60,38 @@ body {
 
 .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
 
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+
+.loading {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-dim);
+}
+
+.loading-dots span {
+    animation: pulse 1.4s ease-in-out infinite;
+    display: inline-block;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--accent);
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
 .demon-card {
     background: var(--card);
     border-radius: 12px;
@@ -63,38 +101,49 @@ body {
     align-items: center;
     border: 1px solid #151515;
     cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28), border-color 0.25s;
     position: relative;
-    overflow: hidden; 
+    overflow: hidden;
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
 }
 
 .demon-card:hover {
-    transform: translateX(10px);
+    transform: translateX(12px) scale(1.01);
     border-color: var(--accent);
     background: #0f0f0f;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.08);
 }
 
-
-.demon-card::after {
+.demon-card::before {
     content: "";
     position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.05), transparent);
-    transition: 0.5s;
+    top: 0; left: -200%;
+    width: 200%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.06) 50%, transparent 100%);
+    transition: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
 }
-.demon-card:hover::after { left: 100%; }
+.demon-card:hover::before { left: 200%; }
 
-.rank { font-size: 1.8rem; font-weight: 900; color: var(--accent); min-width: 70px; }
+.rank { font-size: 1.8rem; font-weight: 900; color: var(--accent); min-width: 70px; text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
 
 .thumbnail {
-    width: 180px;
-    height: 100px;
+    width: 260px;
+    height: 146px;
     background: #1a1a1a;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-right: 25px;
     object-fit: cover;
     border: 1px solid #222;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    flex-shrink: 0;
+}
+
+.demon-card:hover .thumbnail {
+    transform: scale(1.05);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
 }
 
 .info h3 { margin: 0; font-size: 1.5rem; }
@@ -105,10 +154,13 @@ body {
     display: none;
     position: fixed;
     top:0; left:0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.85);
     z-index: 1000;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
+    animation: fadeIn 0.25s ease;
 }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .modal-content {
     max-width: 900px;
@@ -118,12 +170,20 @@ body {
     border-radius: 20px;
     border: 1px solid var(--accent);
     position: relative;
-    animation: zoomIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    animation: zoomIn 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    box-shadow: 0 0 60px rgba(0, 212, 255, 0.06);
 }
 
-@keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes zoomIn { from { transform: scale(0.85) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 
-.close-btn { position: absolute; top: 15px; right: 25px; font-size: 30px; cursor: pointer; color: var(--text-dim); }
+.close-btn {
+    position: absolute; top: 15px; right: 25px;
+    font-size: 28px; cursor: pointer; color: var(--text-dim);
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+    z-index: 10;
+}
+.close-btn:hover { color: var(--accent); transform: rotate(90deg); }
 
 iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: none; box-shadow: var(--glow); }
 
@@ -134,10 +194,59 @@ iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: none; box
     margin-top: 25px;
 }
 
-.stat-item { background: #111; padding: 15px; border-radius: 10px; border-top: 2px solid var(--accent); }
-.stat-item span { display: block; color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; }
+.stat-item {
+    background: #111;
+    padding: 15px;
+    border-radius: 10px;
+    border-top: 2px solid var(--accent);
+    transition: background 0.2s;
+}
+.stat-item span { display: block; color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .stat-item b { font-size: 1.2rem; }
 
+.stat-item .copy-id {
+    cursor: copy;
+    transition: color 0.2s;
+    position: relative;
+}
+.stat-item .copy-id:hover { color: var(--accent); }
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--accent);
+    color: #000;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    z-index: 2000;
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.35s ease;
+    pointer-events: none;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+}
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+#bgIcons {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+#bgIcons svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
 
 .header-right { display: flex; align-items: center; gap: 20px; }
 

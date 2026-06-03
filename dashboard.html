@@ -16,19 +16,25 @@
     <main class="content">
         <section class="form-section">
             <h3>Añadir Nuevo Nivel</h3>
-            <div class="grid-inputs">
-                <input type="text" id="name" placeholder="Nombre del Nivel">
-                <input type="text" id="author" placeholder="Creador">
-                <input type="text" id="verifier" placeholder="Verificador">
-                <input type="text" id="ytUrl" placeholder="URL Video (YouTube)">
-                <input type="text" id="thumbUrl" placeholder="URL Miniatura (Opcional)">
-                <input type="number" id="levelID" placeholder="ID del Juego">
-                <button onclick="addLevel()" id="addBtn">AÑADIR A LA LISTA</button>
+            <div class="form-layout">
+                <div class="grid-inputs">
+                    <input type="text" id="name" placeholder="Nombre del Nivel">
+                    <input type="text" id="author" placeholder="Creador">
+                    <input type="text" id="verifier" placeholder="Verificador">
+                    <input type="text" id="ytUrl" placeholder="URL Video (YouTube)" oninput="previewThumb()">
+                    <input type="text" id="thumbUrl" placeholder="URL Miniatura (Opcional)">
+                    <input type="number" id="levelID" placeholder="ID del Juego">
+                    <button onclick="addLevel()" id="addBtn">AÑADIR A LA LISTA</button>
+                </div>
+                <div class="thumb-preview" id="thumbPreview">
+                    <div class="thumb-placeholder">Vista previa</div>
+                </div>
             </div>
         </section>
 
         <section class="list-section">
-            <h3>Niveles Actuales (Top 50)</h3>
+            <h3>Niveles Actuales <span id="levelCount"></span></h3>
+            <input type="text" id="adminSearch" placeholder="Filtrar niveles..." class="admin-search">
             <div id="adminList" class="admin-grid"></div>
         </section>
     </main>
