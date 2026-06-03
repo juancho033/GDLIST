@@ -1,7 +1,18 @@
 
 if(sessionStorage.getItem("logged") !== "true") { window.location.href = "login.html"; }
 
-let levels = JSON.parse(localStorage.getItem("myDemonList")) || [];
+let levels = [];
+let pendingDelete = null;
+
+function loadLevels() {
+    const stored = localStorage.getItem("myDemonList");
+    if (stored) {
+        levels = JSON.parse(stored);
+    } else if (typeof DB_LEVELS !== 'undefined') {
+        levels = DB_LEVELS.map(l => ({ ...l }));
+        localStorage.setItem("myDemonList", JSON.stringify(levels));
+    }
+}
 
 function renderAdminList(filter = "") {
     const container = document.getElementById('adminList');
@@ -18,6 +29,7 @@ function renderAdminList(filter = "") {
         const realIndex = levels.indexOf(lvl);
         const div = document.createElement('div');
         div.className = 'admin-card';
+        div.style.animationDelay = `${idx * 0.04}s`;
         div.innerHTML = `
             <div class="pos">#${realIndex + 1}</div>
             <div class="details">
@@ -28,7 +40,7 @@ function renderAdminList(filter = "") {
                 <button onclick="editLevel(${realIndex})" title="Editar">\u270E</button>
                 <button onclick="move(${realIndex}, -1)" title="Subir">\u25B2</button>
                 <button onclick="move(${realIndex}, 1)" title="Bajar">\u25BC</button>
-                <button onclick="remove(${realIndex})" style="color:var(--danger)" title="Eliminar">\u2715</button>
+                <button onclick="confirmDelete(${realIndex})" style="color:var(--danger)" title="Eliminar">\u2715</button>
             </div>
         `;
         container.appendChild(div);
@@ -44,12 +56,23 @@ function addLevel() {
     const levelID = document.getElementById('levelID').value.trim();
     const thumb = document.getElementById('thumbUrl').value.trim() || (video ? `https://img.youtube.com/vi/${extractID(video)}/mqdefault.jpg` : "");
 
-    if(!name || !video) return alert("Nombre y URL del video son obligatorios");
+    if(!name || !video) {
+        const form = document.querySelector('.form-section');
+        form.style.borderColor = '#ff4444';
+        form.style.boxShadow = '0 0 20px rgba(255,68,68,0.2)';
+        setTimeout(() => { form.style.borderColor = ''; form.style.boxShadow = ''; }, 600);
+        return alert("Nombre y URL del video son obligatorios");
+    }
 
     levels.push({ name, author, verifier, video, thumb, id: levelID });
     renderAdminList(document.getElementById('adminSearch').value);
     document.querySelectorAll('#name, #author, #verifier, #ytUrl, #thumbUrl, #levelID').forEach(i => i.value = "");
     document.getElementById('thumbPreview').innerHTML = '<div class="thumb-placeholder">Vista previa</div>';
+
+    const form = document.querySelector('.form-section');
+    form.style.borderColor = 'var(--success)';
+    form.style.boxShadow = '0 0 20px rgba(0,255,136,0.15)';
+    setTimeout(() => { form.style.borderColor = ''; form.style.boxShadow = ''; }, 800);
 }
 
 function editLevel(index) {
@@ -69,11 +92,25 @@ function move(index, direction) {
     }
 }
 
-function remove(index) {
-    if(confirm("¿Borrar nivel?")) {
-        levels.splice(index, 1);
+function confirmDelete(index) {
+    pendingDelete = index;
+    const msg = document.getElementById('confirmMsg');
+    msg.innerHTML = `¿Seguro que quieres borrar <span class="level-name">${levels[index].name}</span>?`;
+    document.getElementById('confirmModal').classList.add('show');
+}
+
+function executeDelete() {
+    if (pendingDelete !== null) {
+        levels.splice(pendingDelete, 1);
+        pendingDelete = null;
+        closeConfirm();
         renderAdminList(document.getElementById('adminSearch').value);
     }
+}
+
+function closeConfirm() {
+    document.getElementById('confirmModal').classList.remove('show');
+    pendingDelete = null;
 }
 
 function extractID(url) {
@@ -107,6 +144,13 @@ document.getElementById('adminSearch').addEventListener('input', (e) => {
     renderAdminList(e.target.value);
 });
 
+document.getElementById('confirmOk').addEventListener('click', executeDelete);
+document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
+document.getElementById('confirmModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeConfirm();
+});
+
 function logout() { sessionStorage.clear(); window.location.href = "login.html"; }
 
+loadLevels();
 renderAdminList();

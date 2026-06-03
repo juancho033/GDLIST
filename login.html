@@ -2,87 +2,437 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Acceso Staff | Demonlist</title>
+    <title>Acceso Staff | GDlist</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;900&display=swap" rel="stylesheet">
     <style>
         :root { --accent: #00d4ff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            margin: 0; padding: 0;
             background: #050505;
             color: white;
             font-family: 'Lexend', sans-serif;
-            display: flex; justify-content: center; align-items: center;
+            display: flex;
             height: 100vh;
-            background: radial-gradient(circle at center, #0a1a1f 0%, #050505 100%);
+            overflow: hidden;
         }
-        .login-box {
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(10px);
+
+        .login-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .login-box {
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 45px 40px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            width: 350px;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            width: 380px;
             text-align: center;
             animation: fadeIn 0.8s ease;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        h1 { font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 30px; }
-        h1 span { color: var(--accent); text-shadow: 0 0 15px var(--accent); }
 
-        .input-group { position: relative; margin-bottom: 20px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 15px var(--accent); }
+            50% { text-shadow: 0 0 30px var(--accent), 0 0 60px rgba(0, 212, 255, 0.3); }
+        }
+
+        h1 { font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 30px; }
+        h1 span { color: var(--accent); text-shadow: 0 0 15px var(--accent); animation: glowPulse 3s ease-in-out infinite; }
+
+        .input-group { position: relative; margin-bottom: 20px; opacity: 0; animation: fadeIn 0.5s ease forwards; }
+        .input-group:nth-child(2) { animation-delay: 0.2s; }
+        .input-group:nth-child(3) { animation-delay: 0.3s; }
+
         input {
-            width: 100%; padding: 12px;
+            width: 100%; padding: 14px 16px;
             background: rgba(0,0,0,0.5);
             border: 1px solid #222;
-            border-radius: 8px;
+            border-radius: 10px;
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-family: 'Lexend', sans-serif;
             outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
+            transition: 0.3s ease, transform 0.3s ease;
         }
-        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 18px rgba(0, 212, 255, 0.25); transform: scale(1.02); }
+        input::placeholder { color: #444; }
+
+        .login-box.shake { animation: shake 0.4s ease !important; }
 
         button {
-            width: 100%; padding: 12px;
+            width: 100%; padding: 14px;
             background: var(--accent);
-            border: none; border-radius: 8px;
+            border: none; border-radius: 10px;
             color: black; font-weight: 900;
             cursor: pointer; transition: 0.3s;
             letter-spacing: 1px;
+            font-size: 0.9rem;
+            font-family: 'Lexend', sans-serif;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 0.4s forwards;
+            position: relative;
+            overflow: hidden;
         }
-        button:hover { background: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4); }
-        
-        .back-link { display: block; margin-top: 20px; color: #555; text-decoration: none; font-size: 0.8rem; transition: 0.3s; }
-        .back-link:hover { color: var(--accent); }
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        button:hover { background: white; transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5); }
+        button:hover::before { left: 100%; }
+        button:active { transform: translateY(-1px); }
+
+        .back-link { display: block; margin-top: 22px; color: #555; text-decoration: none; font-size: 0.8rem; transition: 0.3s; opacity: 0; animation: fadeIn 0.5s ease 0.5s forwards; }
+        .back-link:hover { color: var(--accent); transform: translateX(4px); }
+
+        .cube-side {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #threeCanvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .login-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.2s ease;
+        }
+        .login-popup.show { display: flex; }
+        .popup-box {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 35px 40px;
+            max-width: 360px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .popup-box p {
+            font-size: 1.05rem;
+            margin: 0 0 25px;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .popup-btn {
+            padding: 10px 40px;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent);
+            color: black;
+            font-weight: 900;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'Lexend', sans-serif;
+            transition: all 0.25s;
+        }
+        .popup-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .cube-side { display: none; }
+            .login-side { padding: 20px; }
+            .login-box { width: 100%; max-width: 380px; padding: 30px 25px; }
+        }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h1>STAFF<span>PANEL</span></h1>
-        <div class="input-group">
-            <input type="text" id="user" placeholder="Usuario">
+    <div class="login-side">
+        <div class="login-box">
+            <h1>LO<span>GIN</span></h1>
+            <div class="input-group">
+                <input type="text" id="user" placeholder="Usuario">
+            </div>
+            <div class="input-group">
+                <input type="password" id="pass" placeholder="Contraseña">
+            </div>
+            <button onclick="login()">AUTORIZAR ACCESO</button>
+            <a href="index.html" class="back-link">&larr; Volver a la lista</a>
         </div>
-        <div class="input-group">
-            <input type="password" id="pass" placeholder="Contraseña">
-        </div>
-        <button onclick="login()">AUTORIZAR ACCESO</button>
-        <a href="index.html" class="back-link">← Volver a la lista</a>
     </div>
 
+    <div class="cube-side" id="cubeContainer">
+        <canvas id="threeCanvas"></canvas>
+    </div>
+
+    <div id="loginPopup" class="login-popup">
+        <div class="popup-box">
+            <p id="popupMsg">Error</p>
+            <button id="popupBtn" class="popup-btn">OK</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
+        function showPopup(msg) {
+            document.getElementById('popupMsg').textContent = msg;
+            document.getElementById('loginPopup').classList.add('show');
+        }
+        function closePopup() {
+            document.getElementById('loginPopup').classList.remove('show');
+        }
+
         function login() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
+            const u = document.getElementById('user').value.trim();
+            const p = document.getElementById('pass').value.trim();
+            if (!u || !p) {
+                showPopup('Por favor completa todos los campos');
+                return;
+            }
             if(u === "admin" && p === "Juancho2026") {
                 sessionStorage.setItem("logged", "true");
                 window.location.href = "dashboard.html";
             } else {
-                alert("Credenciales incorrectas");
+                const box = document.querySelector('.login-box');
+                box.classList.remove('shake');
+                void box.offsetWidth;
+                box.classList.add('shake');
+                setTimeout(() => box.classList.remove('shake'), 500);
+                showPopup('Credenciales incorrectas');
             }
         }
+
+        const container = document.getElementById('cubeContainer');
+        const canvas = document.getElementById('threeCanvas');
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 20);
+        camera.position.set(0, 0.2, 6);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.shadowMap.bias = 0.0005;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+
+        const ambientLight = new THREE.AmbientLight(0x223355, 0.5);
+        scene.add(ambientLight);
+
+        const hemiLight = new THREE.HemisphereLight(0x4488ff, 0x002244, 0.4);
+        scene.add(hemiLight);
+
+        const keyLight = new THREE.DirectionalLight(0xffeedd, 1.4);
+        keyLight.position.set(5, 8, 6);
+        keyLight.castShadow = true;
+        keyLight.shadow.mapSize.width = 1024;
+        keyLight.shadow.mapSize.height = 1024;
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0x00ddff, 0.6);
+        fillLight.position.set(-4, 2, -3);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.DirectionalLight(0x6688ff, 0.4);
+        rimLight.position.set(0, -4, -5);
+        scene.add(rimLight);
+
+        const backLight = new THREE.DirectionalLight(0x00aaff, 0.3);
+        backLight.position.set(0, 3, -6);
+        scene.add(backLight);
+
+        const loader = new THREE.TextureLoader();
+        const faceTex = loader.load('assets/icon_login.png');
+        faceTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        faceTex.encoding = THREE.sRGBEncoding;
+
+        const geo = new THREE.BoxGeometry(2.2, 2.2, 2.2);
+
+        const sideMat = new THREE.MeshPhysicalMaterial({
+            color: 0x0088aa,
+            roughness: 0.25,
+            metalness: 0.5,
+            clearcoat: 0.4,
+            clearcoatRoughness: 0.3,
+            envMapIntensity: 0.6,
+        });
+        const sideMatDark = new THREE.MeshPhysicalMaterial({
+            color: 0x006688,
+            roughness: 0.35,
+            metalness: 0.6,
+            clearcoat: 0.3,
+            clearcoatRoughness: 0.4,
+            envMapIntensity: 0.5,
+        });
+        const topMat = new THREE.MeshPhysicalMaterial({
+            color: 0x00bbdd,
+            roughness: 0.15,
+            metalness: 0.3,
+            clearcoat: 0.6,
+            clearcoatRoughness: 0.2,
+            envMapIntensity: 0.8,
+        });
+        const faceMat = new THREE.MeshPhysicalMaterial({
+            map: faceTex,
+            roughness: 0.3,
+            metalness: 0.1,
+            clearcoat: 0.2,
+            clearcoatRoughness: 0.4,
+        });
+
+        const materials = [
+            sideMatDark, sideMatDark,
+            topMat,
+            sideMat,
+            faceMat,
+            sideMat,
+        ];
+        const cube = new THREE.Mesh(geo, materials);
+        cube.castShadow = true;
+        cube.receiveShadow = true;
+        cube.position.y = 0;
+        scene.add(cube);
+
+        const edges = new THREE.EdgesGeometry(geo);
+        const edgeMat = new THREE.LineBasicMaterial({
+            color: 0x55eeff,
+            transparent: true,
+            opacity: 0.12,
+        });
+        const edgeLines = new THREE.LineSegments(edges, edgeMat);
+        cube.add(edgeLines);
+
+        const edgeMatBright = new THREE.LineBasicMaterial({
+            color: 0x00ddff,
+            transparent: true,
+            opacity: 0.06,
+        });
+        const edgeLines2 = new THREE.LineSegments(
+            new THREE.EdgesGeometry(new THREE.BoxGeometry(2.28, 2.28, 2.28)),
+            edgeMatBright
+        );
+        cube.add(edgeLines2);
+
+        const glowGroup = new THREE.Group();
+        const glowMat = new THREE.MeshBasicMaterial({
+            color: 0x00ddff,
+            transparent: true,
+            opacity: 0.05,
+            wireframe: true,
+            depthWrite: false,
+        });
+        const glowWire = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2.5, 2.5), glowMat);
+        glowGroup.add(glowWire);
+
+        const glowMat2 = new THREE.MeshBasicMaterial({
+            color: 0x0088ff,
+            transparent: true,
+            opacity: 0.025,
+            wireframe: true,
+            depthWrite: false,
+        });
+        const glowWire2 = new THREE.Mesh(new THREE.BoxGeometry(2.8, 2.8, 2.8), glowMat2);
+        glowGroup.add(glowWire2);
+
+        scene.add(glowGroup);
+
+        const floorMat = new THREE.MeshPhysicalMaterial({
+            color: 0x00bbff,
+            transparent: true,
+            opacity: 0.06,
+            roughness: 0.9,
+            metalness: 0,
+            clearcoat: 0.1,
+        });
+        const floor = new THREE.Mesh(new THREE.CircleGeometry(3.8, 48), floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -1.35;
+        floor.receiveShadow = true;
+        scene.add(floor);
+
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: 0x00ddff,
+            transparent: true,
+            opacity: 0.04,
+            wireframe: true,
+            depthWrite: false,
+        });
+        const ring = new THREE.Mesh(new THREE.RingGeometry(1.5, 3.8, 48), ringMat);
+        ring.rotation.x = -Math.PI / 2;
+        ring.position.y = -1.34;
+        scene.add(ring);
+
+        function resize() {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+
+        window.addEventListener('resize', resize);
+
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+
+            const bob = Math.sin(time * 0.7) * 0.12;
+            cube.position.y = bob;
+
+            const breathe = 1 + Math.sin(time * 0.4) * 0.002;
+            cube.scale.set(breathe, breathe, breathe);
+
+            glowGroup.position.y = bob;
+            glowWire.rotation.x = time * 0.04;
+            glowWire.rotation.y = time * 0.07;
+            glowWire2.rotation.x = -time * 0.03;
+            glowWire2.rotation.y = -time * 0.05;
+
+            ring.scale.x = 1 + Math.sin(time * 0.5) * 0.02;
+            ring.scale.y = 1 + Math.sin(time * 0.5) * 0.02;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+        resize();
+
+        document.getElementById('popupBtn').addEventListener('click', closePopup);
+        document.getElementById('loginPopup').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closePopup();
+        });
     </script>
 </body>
 </html>

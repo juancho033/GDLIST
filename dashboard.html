@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>GDList - DashBoard</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dashboard-style.css">
+    <link rel="stylesheet" href="css/dashboard-style.css">
 </head>
 <body>
     <div class="sidebar">
@@ -39,6 +39,17 @@
         </section>
     </main>
 
-    <script src="dashboard.js"></script>
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-box">
+            <p id="confirmMsg">¿Seguro que quieres borrar este nivel?</p>
+            <div class="confirm-btns">
+                <button id="confirmCancel" class="confirm-btn cancel">Cancelar</button>
+                <button id="confirmOk" class="confirm-btn danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/DBLEVEL.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

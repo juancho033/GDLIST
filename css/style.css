@@ -32,11 +32,21 @@ body {
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
+    animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .search-bar {
     flex: 1;
     margin: 0 20px;
+}
+
+.search-bar {
+    animation: fadeIn 0.6s ease 0.2s both;
 }
 
 .search-bar input {
@@ -49,31 +59,48 @@ body {
     width: 100%;
     max-width: 500px;
     outline: none;
-    transition: 0.3s;
+    transition: 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.logo { font-size: 2rem; font-weight: 900; letter-spacing: -1px; }
-.logo span { color: var(--accent); text-shadow: var(--glow); }
+.logo { font-size: 2rem; font-weight: 900; letter-spacing: -1px; animation: fadeIn 0.6s ease 0.1s both; }
+.logo span { color: var(--accent); text-shadow: var(--glow); animation: logoGlow 3s ease-in-out infinite; }
 .logo small { font-size: 0.8rem; background: #333; padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
 
-.search-bar input:focus { border-color: var(--accent); box-shadow: var(--glow); }
+@keyframes logoGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+    50% { text-shadow: 0 0 25px rgba(0, 212, 255, 0.7), 0 0 50px rgba(0, 212, 255, 0.15); }
+}
 
-.container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+.search-bar input:focus { border-color: var(--accent); box-shadow: var(--glow); transform: scale(1.02); }
+
+.container { max-width: 1100px; margin: 30px auto; padding: 0 20px; animation: fadeIn 0.6s ease 0.1s both; }
 
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px) scale(0.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes shimmer {
-    0% { background-position: -400px 0; }
-    100% { background-position: 400px 0; }
+@keyframes cardShimmer {
+    0% { transform: translateX(-200%) skewX(-20deg); }
+    100% { transform: translateX(300%) skewX(-20deg); }
+}
+
+@keyframes cardShimmerHover {
+    0% { transform: translateX(-200%) skewX(-20deg); }
+    100% { transform: translateX(300%) skewX(-20deg); }
 }
 
 .loading {
     text-align: center;
     padding: 80px 20px;
     color: var(--text-dim);
+    animation: fadeIn 0.5s ease;
+}
+
+.loading.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 .loading-dots span {
@@ -101,7 +128,7 @@ body {
     align-items: center;
     border: 1px solid #151515;
     cursor: pointer;
-    transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28), border-color 0.25s;
+    transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28), border-color 0.3s, box-shadow 0.3s, background 0.3s;
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.4s ease forwards;
@@ -109,22 +136,39 @@ body {
 }
 
 .demon-card:hover {
-    transform: translateX(12px) scale(1.01);
+    transform: translateX(12px) scale(1.015);
     border-color: var(--accent);
     background: #0f0f0f;
-    box-shadow: 0 0 25px rgba(0, 212, 255, 0.08);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
 }
 
 .demon-card::before {
     content: "";
     position: absolute;
-    top: 0; left: -200%;
-    width: 200%; height: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 255, 0.06) 50%, transparent 100%);
-    transition: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    top: 0; left: 0;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 212, 255, 0.02) 30%,
+        rgba(0, 212, 255, 0.12) 50%,
+        rgba(0, 212, 255, 0.02) 70%,
+        transparent 100%
+    );
+    transform: translateX(-200%) skewX(-20deg);
     pointer-events: none;
+    will-change: transform;
+    transition: none;
 }
-.demon-card:hover::before { left: 200%; }
+
+
+.demon-card.shimmer::before {
+    animation: cardShimmer 1.2s ease-out 1 forwards;
+}
+
+
+.demon-card:hover::before {
+    animation: cardShimmerHover 0.6s ease-out 1 forwards;
+}
 
 .rank { font-size: 1.8rem; font-weight: 900; color: var(--accent); min-width: 70px; text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
 
@@ -158,9 +202,15 @@ body {
     z-index: 1000;
     backdrop-filter: blur(20px);
     animation: fadeIn 0.25s ease;
+    transition: opacity 0.2s ease;
+}
+
+.modal.closing {
+    animation: fadeOut 0.2s ease forwards;
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
 .modal-content {
     max-width: 900px;
@@ -185,7 +235,9 @@ body {
 }
 .close-btn:hover { color: var(--accent); transform: rotate(90deg); }
 
-iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: none; box-shadow: var(--glow); }
+#videoContainer { width: 100%; }
+#ytPlayer { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; box-shadow: var(--glow); }
+#ytPlayer iframe { width: 100% !important; height: 100% !important; border: none; }
 
 .stats-grid {
     display: grid;
@@ -199,8 +251,20 @@ iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: none; box
     padding: 15px;
     border-radius: 10px;
     border-top: 2px solid var(--accent);
-    transition: background 0.2s;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    opacity: 0;
+    animation: fadeInUp 0.4s ease forwards;
 }
+.stat-item:nth-child(1) { animation-delay: 0.1s; }
+.stat-item:nth-child(2) { animation-delay: 0.2s; }
+.stat-item:nth-child(3) { animation-delay: 0.3s; }
+
+.stat-item:hover {
+    background: #151515;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
 .stat-item span { display: block; color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .stat-item b { font-size: 1.2rem; }
 
@@ -248,7 +312,7 @@ iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: none; box
     height: auto;
 }
 
-.header-right { display: flex; align-items: center; gap: 20px; }
+.header-right { display: flex; align-items: center; gap: 20px; animation: fadeIn 0.6s ease 0.3s both; }
 
 .btn-staff {
     background: transparent;
@@ -260,10 +324,119 @@ iframe { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: none; box
     font-size: 0.8rem;
     font-weight: 700;
     transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-staff::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+    transition: left 0.5s;
 }
 
 .btn-staff:hover {
     border-color: var(--accent);
     color: var(--accent);
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-staff:hover::before { left: 100%; }
+
+
+.modal.minimized {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    pointer-events: none;
+}
+
+.modal.minimized .modal-content {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 340px;
+    margin: 0;
+    padding: 0;
+    border-radius: 12px;
+    border: 1px solid var(--accent);
+    pointer-events: auto;
+    animation: none;
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
+    overflow: hidden;
+}
+
+.modal.minimized .modal-content .close-btn { display: none; }
+.modal.minimized #levelStats { display: none; }
+.modal.minimized #miniControls { display: flex !important; }
+
+.modal.minimized #videoContainer { margin: 0; }
+.modal.minimized #ytPlayer { border-radius: 0; box-shadow: none; }
+
+@keyframes miniSlideUp {
+    from { transform: translateY(30px) scale(0.9); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal.minimized .modal-content {
+    animation: miniSlideUp 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+
+.mini-controls {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 8px;
+    background: #111;
+    animation: fadeIn 0.3s ease;
+}
+
+.mini-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: 0.2s;
+    line-height: 1;
+}
+
+.mini-btn:hover {
+    color: var(--accent);
+    background: rgba(0, 212, 255, 0.1);
+    transform: scale(1.15);
+}
+
+.mini-volume {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #333;
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.mini-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.mini-volume::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
 }
