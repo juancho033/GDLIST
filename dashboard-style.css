@@ -1,0 +1,219 @@
+:root {
+    --bg-dark: #050505;
+    --sidebar-bg: #0a0a0a;
+    --card-bg: #111111;
+    --accent: #00d4ff;
+    --accent-glow: rgba(0, 212, 255, 0.3);
+    --text: #ffffff;
+    --text-dim: #888888;
+    --danger: #ff4444;
+    --success: #00ff88;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text);
+    font-family: 'Lexend', sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid #1a1a1a;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar h2 {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 10px;
+}
+
+.sidebar button {
+    background: transparent;
+    border: 1px solid #333;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+.sidebar .btn-download {
+    background: var(--accent);
+    color: black;
+    border: none;
+    text-align: center;
+    font-weight: 900;
+    margin-top: auto;
+}
+
+.sidebar button:hover {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, 0.05);
+    transform: translateX(5px);
+}
+
+.sidebar .btn-download:hover {
+    background: white;
+    transform: scale(1.02);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+
+.content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    background: radial-gradient(circle at top right, rgba(0, 212, 255, 0.03), transparent);
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+
+.form-section {
+    background: var(--sidebar-bg);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid #1a1a1a;
+    margin-bottom: 40px;
+}
+
+.grid-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+input {
+    background: #000;
+    border: 1px solid #333;
+    padding: 12px;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+#addBtn {
+    grid-column: 1 / -1;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 900;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+#addBtn:hover {
+    background: var(--accent);
+    color: black;
+}
+
+
+.admin-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-card {
+    background: var(--card-bg);
+    padding: 15px 25px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #1a1a1a;
+    transition: 0.2s;
+}
+
+.admin-card:hover {
+    border-color: #333;
+    background: #161616;
+}
+
+.admin-card .pos {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--accent);
+    width: 60px;
+}
+
+.admin-card .details {
+    flex: 1;
+}
+
+.admin-card .details strong {
+    display: block;
+    font-size: 1.1rem;
+}
+
+.admin-card .details span {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+}
+
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    background: #222;
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.controls button:hover {
+    background: var(--accent);
+    color: black;
+}
+
+.controls button[style*="color:red"]:hover {
+    background: var(--danger) !important;
+    color: white !important;
+}
+
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }

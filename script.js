@@ -6,39 +6,55 @@ const closeBtn = document.querySelector('.close-btn');
 let demonsData = [];
 
 
-const PROXY = "https://corsproxy.io/?";
-const API_URL = "https://api.demonlist.org";
-
-async function getDemons() {
-    try {
-        const response = await fetch(PROXY + encodeURIComponent(API_URL));
-        if (!response.ok) throw new Error("Error en la respuesta");
-        demonsData = await response.json(); // <--- ESTA LÍNEA ES VITAL
-        demonsData.sort((a, b) => a.position - b.position);
-
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof DB_LEVELS !== 'undefined') {
+        demonsData = DB_LEVELS;
         renderList(demonsData);
-    } catch (error) {
-        console.error(error);
-        listContainer.innerHTML = `<div class="error">Error de conexión: Pointercrate bloqueó la petición local. Intenta recargar.</div>`;
+    } else {
+        console.error("No se encontró el archivo DBLEVEL.js");
+        document.getElementById('listContainer').innerHTML = "<p style='color:gray'>No hay niveles cargados. Ve al Dashboard para añadir el primero.</p>";
     }
-}
+});
 
 function renderList(list) {
-    listContainer.innerHTML = '';
-    list.forEach(demon => {
+    const container = document.getElementById('listContainer');
+    container.innerHTML = '';
+
+    list.forEach((demon, index) => {
         const card = document.createElement('div');
         card.className = 'demon-card';
         card.innerHTML = `
-            <div class="rank">#${demon.position}</div>
-            <img class="thumbnail" src="https://img.youtube.com/vi/${extractID(demon.video)}/mqdefault.jpg" onerror="this.src='https://i.ytimg.com/vi/hsh7m9L8zTg/mqdefault.jpg'" alt="thumbnail">
+            <div class="rank">#${index + 1}</div>
+            <img class="thumbnail" src="${demon.thumb}" alt="thumb">
             <div class="info">
                 <h3>${demon.name}</h3>
-                <p>Publicado por: <b>${demon.publisher.name}</b></p>
+                <p>Por: <b>${demon.author}</b> | Verificador: <b>${demon.verifier}</b></p>
             </div>
         `;
-        card.onclick = () => openModal(demon.id);
-        listContainer.appendChild(card);
+        
+        // Al hacer clic, abrimos el modal pasándole los datos del objeto
+        card.onclick = () => openModal(demon, index + 1);
+        container.appendChild(card);
     });
+}
+
+function openModal(demon, rank) {
+    const modal = document.getElementById('modal');
+    const videoId = extractID(demon.video); // Usa la función extractID que ya teníamos
+    
+    document.getElementById('videoContainer').innerHTML = `
+        <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+    `;
+    
+    document.getElementById('levelStats').innerHTML = `
+        <h2 style="font-size: 2rem;">#${rank} - ${demon.name}</h2>
+        <div class="stats-grid">
+            <div class="stat-item"><span>Creador</span><b>${demon.author}</b></div>
+            <div class="stat-item"><span>Verificador</span><b>${demon.verifier}</b></div>
+            <div class="stat-item"><span>ID del Nivel</span><b>${demon.id}</b></div>
+        </div>
+    `;
+    modal.style.display = 'block';
 }
 
 function extractID(url) {
@@ -48,42 +64,11 @@ function extractID(url) {
     return (match && match[7].length == 11) ? match[7] : "";
 }
 
-async function openModal(id) {
-    modal.style.display = 'block';
-    const statsDiv = document.getElementById('levelStats');
-    const videoDiv = document.getElementById('videoContainer');
-
-    statsDiv.innerHTML = "Cargando detalles...";
-    videoDiv.innerHTML = "";
-
-    try {
-        const res = await fetch(PROXY + encodeURIComponent(`https://pointercrate.com/api/v2/demons/${id}`));
-        const data = await res.json();
-
-        const videoId = extractID(data.video);
-
-        videoDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
-
-        statsDiv.innerHTML = `
-            <h2 style="font-size: 2rem; margin-bottom: 5px;">${data.name}</h2>
-            <div class="stats-grid">
-                <div class="stat-item"><span>Verificador</span><b>${data.verifier.name}</b></div>
-                <div class="stat-item"><span>Publisher</span><b>${data.publisher.name}</b></div>
-                <div class="stat-item"><span>ID del Nivel</span><b>${data.id}</b></div>
-                <div class="stat-item"><span>Posición</span><b>#${data.position}</b></div>
-            </div>
-        `;
-    } catch (e) {
-        statsDiv.innerHTML = "Error al cargar detalles.";
-    }
-}
-
-
 searchInput.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase();
     const filtered = demonsData.filter(d =>
         d.name.toLowerCase().includes(query) ||
-        d.publisher.name.toLowerCase().includes(query)
+        d.author.toLowerCase().includes(query)
     );
     renderList(filtered);
 });
@@ -95,4 +80,3 @@ closeBtn.onclick = () => {
 
 window.onclick = (e) => { if (e.target == modal) closeBtn.onclick(); }
 
-getDemons();

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GDList - DashBoard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>MANAGER</h2>
+        <button onclick="downloadDB()" class="btn-download">DESCARGAR DBLEVEL.js</button>
+        <button onclick="logout()" style="background: #ff4444; margin-top: 20px;">SALIR</button>
+    </div>
+
+    <main class="content">
+        <section class="form-section">
+            <h3>Añadir Nuevo Nivel</h3>
+            <div class="grid-inputs">
+                <input type="text" id="name" placeholder="Nombre del Nivel">
+                <input type="text" id="author" placeholder="Creador">
+                <input type="text" id="verifier" placeholder="Verificador">
+                <input type="text" id="ytUrl" placeholder="URL Video (YouTube)">
+                <input type="text" id="thumbUrl" placeholder="URL Miniatura (Opcional)">
+                <input type="number" id="levelID" placeholder="ID del Juego">
+                <button onclick="addLevel()" id="addBtn">AÑADIR A LA LISTA</button>
+            </div>
+        </section>
+
+        <section class="list-section">
+            <h3>Niveles Actuales (Top 50)</h3>
+            <div id="adminList" class="admin-grid"></div>
+        </section>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
