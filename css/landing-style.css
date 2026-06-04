@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Lexend', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: #0a0a0f;
     color: #e0e0e0;
     min-height: 100vh;
@@ -33,6 +33,7 @@ body {
     letter-spacing: 2px;
     text-decoration: none;
     color: #e0e0e0;
+    font-family: 'Russo One'
 }
 
 .nav-logo span {
@@ -229,9 +230,10 @@ body {
 .hero-card h2 {
     margin-top: 20px;
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: 400;
     color: #00d4ff;
     letter-spacing: 2px;
+    font-family: 'Russo One', sans-serif;
     text-transform: uppercase;
 }
 
@@ -268,6 +270,7 @@ body {
     font-size: 0.9rem;
     font-weight: 400;
     overflow: hidden;
+    font-family: 'Russo One', sans-serif;
     transition: all 0.3s;
     animation: heroFadeIn 1s ease 0.15s both;
 }
@@ -317,6 +320,7 @@ body {
     font-weight: 400;
     margin-bottom: 30px;
     color: rgba(255, 255, 255, 0.6);
+    font-family: 'Russo One', sans-serif;
 }
 
 .more-section h2 strong {

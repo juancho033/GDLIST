@@ -29,7 +29,7 @@
 body {
     background-color: var(--bg-dark);
     color: var(--text);
-    font-family: 'Lexend', sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     display: flex;
     height: 100vh;
@@ -52,6 +52,7 @@ body {
     font-size: 1.2rem;
     letter-spacing: 3px;
     color: var(--accent);
+    font-family: 'Russo One', sans-serif;
     margin-bottom: 30px;
     text-align: center;
     border-bottom: 2px solid var(--accent);
@@ -66,9 +67,10 @@ body {
     padding: 12px;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 400;
     transition: all 0.3s;
     text-align: left;
+    font-family: 'Russo One', sans-serif;
     opacity: 0;
     animation: fadeInUp 0.35s ease forwards;
     position: relative;
@@ -174,7 +176,7 @@ input:focus {
     border: 1px solid var(--accent);
     padding: 15px;
     border-radius: 8px;
-    font-weight: 900;
+    font-weight: 400;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -182,6 +184,7 @@ input:focus {
     margin-top: 10px;
     position: relative;
     overflow: hidden;
+    font-family: 'Russo One', sans-serif;
 }
 
 #addBtn::before {
@@ -235,10 +238,11 @@ input:focus {
 
 .admin-card .pos {
     font-size: 1.5rem;
-    font-weight: 900;
+    font-weight: 400;
     color: var(--accent);
     width: 60px;
     transition: transform 0.3s;
+    font-family: 'Russo One', sans-serif;
 }
 
 .admin-card:hover .pos {
@@ -302,8 +306,9 @@ input:focus {
     border: 1px solid #333;
     padding: 15px 20px;
     border-radius: 8px;
-    font-weight: 700;
+    font-weight: 400;
     cursor: pointer;
+    font-family: 'Russo One', sans-serif;
     letter-spacing: 1px;
     transition: 0.3s ease;
 }
