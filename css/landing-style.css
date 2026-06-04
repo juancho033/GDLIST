@@ -421,36 +421,53 @@ footer .socials a:hover {
     font-size: 2rem;
     color: #fff;
     user-select: none;
-    transition: transform 0.1s linear;
     pointer-events: none;
 }
 
-@media (max-width: 600px) {
-    .navbar {
-        padding: 10px 16px;
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
-    .nav-logo {
-        font-size: 1.2rem;
-    }
-    .hero-row {
-        gap: 16px;
-    }
-    .hero-card {
-        padding: 24px 16px;
-        max-width: 340px;
-    }
-    .hero-card img {
-        width: 90%;
-    }
-    .hero-card h2 {
-        font-size: 1.1rem;
-    }
-    .hero-card-link .rl-icon {
-        width: 70px;
-        height: 70px;
-    }
-    .more-card {
-        padding: 12px 20px;
-        font-size: 0.85rem;
-    }
+    .hero-card:hover { transform: none; }
+    .hero-card:hover img { filter: drop-shadow(0 0 20px rgba(0,212,255,0.3)); }
+    .btn-login:hover { transform: none; }
+    .btn-github:hover { transform: none; }
+    .more-card.active:hover { transform: none; }
+    .hero, .hero-card, .btn-github, .more-section, footer { animation: none !important; opacity: 1 !important; }
+}
+
+@media (max-width: 768px) {
+    .navbar { padding: 10px 16px; }
+    .nav-logo { font-size: 1.3rem; }
+    .btn-login { padding: 6px 16px; font-size: 0.8rem; }
+    .hero { padding: 100px 14px 60px; min-height: auto; }
+    .hero-row { gap: 16px; }
+    .hero-card { padding: 28px 20px; max-width: 380px; }
+    .hero-card h2 { font-size: 1.2rem; letter-spacing: 1px; }
+    .hero-card-link .rl-icon { width: 80px; height: 80px; }
+    .btn-github { margin-top: 24px; padding: 10px 22px; font-size: 0.82rem; }
+    .more-section { padding: 30px 14px 60px; }
+    .more-section h2 { font-size: 1.4rem; }
+    .more-card { padding: 12px 22px; font-size: 0.85rem; }
+    footer { padding: 20px 14px; }
+}
+
+@media (max-width: 480px) {
+    .navbar { padding: 8px 12px; }
+    .nav-logo { font-size: 1.1rem; letter-spacing: 1px; }
+    .hero { padding: 80px 10px 40px; }
+    .hero-card { padding: 22px 14px; max-width: 100%; }
+    .hero-card img { width: 85%; }
+    .hero-card h2 { font-size: 1rem; }
+    .hero-card p { font-size: 0.75rem; }
+    .hero-card-link .rl-icon { width: 60px; height: 60px; }
+    .btn-github { margin-top: 18px; padding: 10px 18px; font-size: 0.78rem; gap: 8px; }
+    .btn-github .gh-icon { width: 16px; height: 16px; }
+    .more-section h2 { font-size: 1.2rem; }
+    .more-grid { gap: 10px; }
+    .more-card { padding: 10px 16px; font-size: 0.78rem; }
+    footer p { font-size: 0.7rem; }
+    footer .socials { gap: 16px; flex-wrap: wrap; }
 }

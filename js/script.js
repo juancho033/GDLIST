@@ -27,30 +27,38 @@ function initBgIcons() {
         `<svg viewBox="0 0 40 40"><rect x="2" y="2" width="36" height="36" rx="5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M20 10 L30 20 L20 30 L10 20 Z" fill="none" stroke="currentColor" stroke-width="1"/><line x1="10" y1="10" x2="30" y2="30" stroke="currentColor" stroke-width="0.5"/><line x1="10" y1="30" x2="30" y2="10" stroke="currentColor" stroke-width="0.5"/></svg>`
     ];
 
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 16 : 28;
     const items = [];
-    const count = 48;
+
     for (let i = 0; i < count; i++) {
         const el = document.createElement('div');
         el.innerHTML = icons[i % icons.length];
-        const size = 18 + Math.random() * 42;
+        const size = isMobile ? 14 + Math.random() * 22 : 18 + Math.random() * 40;
         el.style.cssText = `
             position: absolute;
             left: ${Math.random() * 100}%;
-            top: ${Math.random() * 250}%;
+            top: ${Math.random() * 200}%;
             width: ${size}px;
-            opacity: ${0.03 + Math.random() * 0.07};
+            opacity: ${0.025 + Math.random() * 0.055};
             color: #fff;
             transform: rotate(${Math.random() * 360}deg);
-            will-change: transform;
         `;
         container.appendChild(el);
-        items.push({ el, speed: 0.05 + Math.random() * 0.25, rot: Math.random() * 360 });
+        items.push({ el, speed: 0.05 + Math.random() * 0.2, rot: Math.random() * 360, x: Math.random() * 100 });
     }
 
+    let ticking = false;
     window.addEventListener('scroll', () => {
-        const sy = window.scrollY;
-        for (const item of items) {
-            item.el.style.transform = `translateY(${sy * item.speed}px) rotate(${item.rot}deg)`;
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const sy = window.scrollY;
+                for (const item of items) {
+                    item.el.style.transform = `translateY(${sy * item.speed}px) rotate(${item.rot}deg)`;
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
     }, { passive: true });
 }

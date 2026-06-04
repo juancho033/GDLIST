@@ -312,6 +312,10 @@ body {
     height: auto;
 }
 
+#bgIcons > div {
+    will-change: transform;
+}
+
 .header-right { display: flex; align-items: center; gap: 20px; animation: fadeIn 0.6s ease 0.3s both; }
 
 .btn-staff {
@@ -510,4 +514,147 @@ body {
     font-size: 0.9rem;
     margin: 0;
     max-width: 300px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .demon-card:hover { transform: none; }
+    .demon-card:hover .thumbnail { transform: none; }
+    .btn-staff:hover { transform: none; }
+    .container, .header, .header-right, .logo,
+    .search-bar, .coming-soon { animation: none !important; opacity: 1 !important; }
+    .demon-card { animation: none !important; opacity: 1 !important; }
+    .modal-content { animation: none !important; }
+}
+
+@media (max-width: 900px) {
+    .thumbnail { width: 200px; height: 113px; margin-right: 18px; }
+    .rank { font-size: 1.4rem; min-width: 55px; }
+    .info h3 { font-size: 1.2rem; }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap;
+        padding: 10px 15px;
+        gap: 8px;
+    }
+    .logo {
+        font-size: 1.4rem;
+        order: 0;
+    }
+    .logo small { display: none; }
+    .search-bar {
+        order: 2;
+        margin: 0;
+        width: 100%;
+        flex: 0 0 100%;
+    }
+    .search-bar input {
+        max-width: 100%;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    .header-right {
+        order: 1;
+        gap: 8px;
+        margin-left: auto;
+    }
+
+    .demon-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        text-align: center;
+    }
+    .demon-card:hover { transform: none; }
+
+    .rank {
+        min-width: auto;
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+    }
+    .thumbnail {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        margin: 0 0 10px 0;
+        max-height: 200px;
+    }
+    .demon-card:hover .thumbnail { transform: scale(1.03); }
+
+    .info h3 { font-size: 1.15rem; }
+    .info p { font-size: 0.82rem; }
+
+    .container { margin: 15px auto; padding: 0 12px; }
+
+    .modal-content {
+        margin: 15px 10px;
+        padding: 20px;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .stat-item { padding: 12px; }
+    .stat-item b { font-size: 1rem; }
+
+    .modal.minimized .modal-content {
+        width: 280px;
+        right: 10px;
+        bottom: 10px;
+    }
+    .modal.minimized #ytPlayer { aspect-ratio: 16 / 9; }
+
+    .list-tabs {
+        gap: 3px;
+        padding: 3px;
+    }
+    .list-tab {
+        padding: 8px 10px;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+    }
+
+    .coming-soon { padding: 50px 15px; }
+    .coming-soon h2 { font-size: 1.2rem; }
+    .coming-icon { font-size: 2.2rem; }
+}
+
+@media (max-width: 480px) {
+    .header { padding: 8px 12px; gap: 6px; }
+    .logo { font-size: 1.15rem; }
+    .header-right { gap: 6px; }
+    .btn-staff { padding: 5px 10px; font-size: 0.7rem; }
+    .search-bar input { padding: 8px 12px; font-size: 0.85rem; }
+
+    .list-tab { font-size: 0.6rem; padding: 6px 6px; letter-spacing: 0; }
+
+    .demon-card { padding: 10px; margin-bottom: 10px; }
+    .rank { font-size: 1.1rem; }
+    .info h3 { font-size: 1rem; }
+    .info p { font-size: 0.75rem; }
+
+    .modal-content { padding: 15px; margin: 10px 6px; border-radius: 14px; }
+    .close-btn { top: 10px; right: 15px; font-size: 24px; }
+
+    .modal.minimized .modal-content { width: 220px; right: 6px; bottom: 6px; }
+    .modal.minimized #ytPlayer { aspect-ratio: 16 / 9; }
+    .mini-btn { font-size: 0.85rem; padding: 3px 6px; }
+    .mini-volume { height: 3px; }
+
+    .toast {
+        bottom: 15px;
+        padding: 10px 20px;
+        font-size: 0.8rem;
+        max-width: 90%;
+    }
+
+    .coming-soon { padding: 40px 12px; }
+    .coming-soon h2 { font-size: 1rem; }
+    .coming-soon p { font-size: 0.8rem; }
 }
