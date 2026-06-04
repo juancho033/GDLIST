@@ -439,5 +439,165 @@
         verifier: '[1319] swiborg',
         id: '90390075'
     },
+    {
+        name: 'The Catacombs',
+        video: 'https://www.youtube.com/watch?v=T9-75lfKVQg',
+        thumb: 'https://i.ytimg.com/vi/T9-75lfKVQg/mqdefault.jpg',
+        author: '[SKWAD] Cersia',
+        verifier: '[SKWAD] Slithium',
+        id: '104232191'
+    },
+    {
+        name: 'LIMBO',
+        video: 'https://www.youtube.com/watch?v=kXYMbaMVOZg',
+        thumb: 'https://i.ytimg.com/vi/kXYMbaMVOZg/mqdefault.jpg',
+        author: 'MindCap',
+        verifier: '[1319] BUNNYGRAM',
+        id: '86084399'
+    },
+    {
+        name: 'Gaggatrondra',
+        video: 'https://www.youtube.com/watch?v=A4G41vw6Cf0',
+        thumb: 'https://i.ytimg.com/vi/A4G41vw6Cf0/mqdefault.jpg',
+        author: 'JCMoon',
+        verifier: 'Zeronium',
+        id: '114990369'
+    },
+    {
+        name: 'Belladonna',
+        video: 'https://www.youtube.com/watch?v=saHSgoU1JQQ',
+        thumb: 'https://i.ytimg.com/vi/saHSgoU1JQQ/mqdefault.jpg',
+        author: 'cherryteam',
+        verifier: '[PRIME] exsii',
+        id: '94969889'
+    },
+    {
+        name: 'Codependence',
+        video: 'https://www.youtube.com/watch?v=IKGk41hSnDo',
+        thumb: 'https://i.ytimg.com/vi/IKGk41hSnDo/mqdefault.jpg',
+        author: 'TCTeam',
+        verifier: '[IH82P] Pukklez',
+        id: '62556400'
+    },
+    {
+        name: 'Collapse',
+        video: 'https://www.youtube.com/watch?v=RCFpXyf6bn0',
+        thumb: 'https://i.ytimg.com/vi/RCFpXyf6bn0/mqdefault.jpg',
+        author: '[COMET] Nexel',
+        verifier: '[COMET] Nexel',
+        id: '113256247'
+    },
+    {
+        name: 'Mayhem',
+        video: 'https://www.youtube.com/watch?v=U6e6DD32noM',
+        thumb: 'https://i.ytimg.com/vi/U6e6DD32noM/mqdefault.jpg',
+        author: '[DL] LordVadercraft',
+        verifier: '[DL] LordVadercraft',
+        id: '82544060'
+    },
+    {
+        name: 'CHROMACAVE',
+        video: 'https://www.youtube.com/watch?v=tfpsMZI6z-o',
+        thumb: 'https://i.ytimg.com/vi/tfpsMZI6z-o/mqdefault.jpg',
+        author: 'HappyMoby',
+        verifier: '[FOWL] geodom',
+        id: '131497860'
+    },
+    {
+        name: 'The Plunge',
+        video: 'https://www.youtube.com/watch?v=8gW1-_u1K0Y',
+        thumb: 'https://i.ytimg.com/vi/8gW1-_u1K0Y/mqdefault.jpg',
+        author: 'Dolabill',
+        verifier: 'Gokill',
+        id: '113220284'
+    },
+    {
+        name: 'Fracture',
+        video: 'https://www.youtube.com/watch?v=R_-chk3SRFI',
+        thumb: 'https://i.ytimg.com/vi/R_-chk3SRFI/mqdefault.jpg',
+        author: 'Arrow',
+        verifier: 'Dezstro',
+        id: '99703915'
+    },
+    {
+        name: 'walter white',
+        video: 'https://www.youtube.com/watch?v=KzK62PkWOJ0',
+        thumb: 'https://i.ytimg.com/vi/KzK62PkWOJ0/mqdefault.jpg',
+        author: 'Renn241',
+        verifier: '[OG B] Laysah',
+        id: '81011195'
+    },
+    {
+        name: 'Infinite Chaos',
+        video: 'https://www.youtube.com/watch?v=wOMVERxU5IA',
+        thumb: 'https://i.ytimg.com/vi/wOMVERxU5IA/mqdefault.jpg',
+        author: 'CairoX',
+        verifier: 'Victurkey',
+        id: '119689515'
+    },
+    {
+        name: 'BRITNEY NO SCLEARS',
+        video: 'https://www.youtube.com/watch?v=ff_mQSXwjhU',
+        thumb: 'https://i.ytimg.com/vi/ff_mQSXwjhU/mqdefault.jpg',
+        author: 'wabas',
+        verifier: '[TMG] Scotchtape',
+        id: '125317359'
+    },
+    {
+        name: 'Operation Evolution',
+        video: 'https://www.youtube.com/watch?v=WsVF-ayipvY',
+        thumb: 'https://i.ytimg.com/vi/WsVF-ayipvY/mqdefault.jpg',
+        author: 'Halzion',
+        verifier: 'cobrablitz',
+        id: '114999625'
+    },
+    {
+        name: 'Damascus',
+        video: 'https://www.youtube.com/watch?v=MWQyCUGt76Y',
+        thumb: 'https://i.ytimg.com/vi/MWQyCUGt76Y/mqdefault.jpg',
+        author: 'Dzeser',
+        verifier: 'Timo',
+        id: '93339534'
+    },
+    {
+        name: 'Decks Dark',
+        video: 'https://www.youtube.com/watch?v=l52ApE4HWkY',
+        thumb: 'https://i.ytimg.com/vi/l52ApE4HWkY/mqdefault.jpg',
+        author: '[SKG] Madison Yuko',
+        verifier: '[IQB7] Whizkid05',
+        id: '95719795'
+    },
+    {
+        name: 'SARYYX NEVER CLEAR',
+        video: 'https://www.youtube.com/watch?v=rRlyvmjcz_4',
+        thumb: 'https://i.ytimg.com/vi/rRlyvmjcz_4/mqdefault.jpg',
+        author: 'artos',
+        verifier: 'skzyl',
+        id: '95998005'
+    },
+    {
+        name: 'The Yangire',
+        video: 'https://www.youtube.com/watch?v=V3FjIorIfWg',
+        thumb: 'https://i.ytimg.com/vi/V3FjIorIfWg/mqdefault.jpg',
+        author: 'Dorami',
+        verifier: 'Dorami',
+        id: '110500920'
+    },
+    {
+        name: 'Climax',
+        video: 'https://www.youtube.com/watch?v=E4ppq2WeAAs',
+        thumb: 'https://i.ytimg.com/vi/E4ppq2WeAAs/mqdefault.jpg',
+        author: 'HushLC',
+        verifier: 'Wain',
+        id: '95049815'
+    },
+    {
+        name: 'ORDINARY',
+        video: 'https://www.youtube.com/watch?v=4QiHP3jpGnk',
+        thumb: 'https://i.ytimg.com/vi/4QiHP3jpGnk/mqdefault.jpg',
+        author: 'vit12',
+        verifier: '[WBT] wPopoff',
+        id: '105593215'
+    },
 ];
 

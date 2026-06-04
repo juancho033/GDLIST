@@ -8,6 +8,7 @@
     --text-dim: #888888;
     --danger: #ff4444;
     --success: #00ff88;
+    --warning: #ffaa00;
 }
 
 @keyframes slideInLeft {
@@ -293,6 +294,24 @@ input:focus {
 .controls button[style*="color:var(--danger)"]:hover {
     background: var(--danger) !important;
     color: white !important;
+}
+
+.btn-cancel {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid #333;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+.btn-cancel:hover {
+    color: var(--text);
+    border-color: var(--text-dim);
+    background: rgba(255,255,255,0.03);
 }
 
 .form-layout {

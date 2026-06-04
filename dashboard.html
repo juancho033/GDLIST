@@ -25,7 +25,10 @@
                     <input type="text" id="ytUrl" placeholder="URL Video (YouTube)" oninput="previewThumb()">
                     <input type="text" id="thumbUrl" placeholder="URL Miniatura (Opcional)">
                     <input type="number" id="levelID" placeholder="ID del Juego">
-                    <button onclick="addLevel()" id="addBtn">AÑADIR A LA LISTA</button>
+                    <div style="display:flex;gap:10px;grid-column:1/-1">
+                        <button onclick="addLevel()" id="addBtn" style="flex:1">AÑADIR A LA LISTA</button>
+                        <button onclick="cancelEdit()" id="cancelEdit" class="btn-cancel" style="display:none">Cancelar</button>
+                    </div>
                 </div>
                 <div class="thumb-preview" id="thumbPreview">
                     <div class="thumb-placeholder">Vista previa</div>

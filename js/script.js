@@ -60,6 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof DB_LEVELS !== 'undefined') {
         demonsData = DB_LEVELS;
         buildList();
+        const params = new URLSearchParams(window.location.search);
+        const levelPos = parseInt(params.get('level'));
+        if (levelPos && levelPos > 0 && levelPos <= demonsData.length) {
+            setTimeout(() => {
+                const demon = demonsData[levelPos - 1];
+                openModal(demon, levelPos);
+            }, 400);
+        }
     } else {
         console.error("No se encontró el archivo DBLEVEL.js");
         document.getElementById('listContainer').innerHTML = "<p style='color:gray'>No hay niveles cargados. Ve al Dashboard para añadir el primero.</p>";
@@ -83,6 +91,8 @@ function buildList() {
 
 function renderCards() {
     const container = document.getElementById('listContainer');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'demon-list-content';
     demonsData.forEach((demon, idx) => {
         const rank = idx + 1;
         const card = document.createElement('div');
@@ -98,9 +108,36 @@ function renderCards() {
             </div>
         `;
         card.onclick = () => openModal(demon, rank);
-        container.appendChild(card);
+        wrapper.appendChild(card);
     });
+    container.appendChild(wrapper);
     setTimeout(initShimmer, 300);
+}
+
+function switchList(list) {
+    document.querySelectorAll('.list-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.list-tab[data-list="${list}"]`).classList.add('active');
+
+    const container = document.getElementById('listContainer');
+    const content = container.querySelector('.demon-list-content');
+    const coming = container.querySelector('.coming-soon');
+
+    if (list === 'main') {
+        if (coming) coming.remove();
+        if (content) content.style.display = '';
+    } else {
+        if (content) content.style.display = 'none';
+        if (!coming) {
+            const div = document.createElement('div');
+            div.className = 'coming-soon';
+            div.innerHTML = `
+                <div class="coming-icon">◈</div>
+                <h2>Próximamente</h2>
+                <p>Esta lista estará disponible en una futura actualización.</p>
+            `;
+            container.appendChild(div);
+        }
+    }
 }
 
 function filterList(query) {

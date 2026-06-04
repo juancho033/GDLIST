@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDlist - List</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="assets/icon_login.png" type="image/x-icon">
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo" style="text-decoration:none;"><span style="color: white;">GD</span><span>LIST</span> <small style="color: white;">Alpha</small></a>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar por nivel o creador...">
+        </div>
+        <div class="header-right">
+            <a href="index.html" class="btn-staff" style="margin-right:8px;">Inicio</a>
+            <a href="login.html" class="btn-staff">Login</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="list-tabs">
+            <button class="list-tab active" data-list="main" onclick="switchList('main')">Main List</button>
+            <button class="list-tab" data-list="extended" onclick="switchList('extended')">Extended List</button>
+            <button class="list-tab" data-list="legacy" onclick="switchList('legacy')">Legacy List</button>
+        </div>
+    </div>
+    <div class="container" id="listContainer">
+        <div class="loading">
+            <div class="loading-dots">
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+            <p style="margin-top:10px; font-size:0.9rem;">Cargando niveles...</p>
+        </div>
+    </div>
+
+   
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="videoContainer"><div id="ytPlayer"></div></div>
+            <div id="levelStats"></div>
+            <div id="miniControls" class="mini-controls" style="display:none">
+                <button id="miniPlayBtn" class="mini-btn" onclick="togglePlay()">⏸</button>
+                <input type="range" id="miniVolume" class="mini-volume" min="0" max="100" value="100" oninput="setMiniVolume(this.value)">
+                <button class="mini-btn" onclick="maximizePlayer()" title="Maximizar">⛶</button>
+                <button class="mini-btn" onclick="closeMiniPlayer()" title="Cerrar">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="js/DBLEVEL.js"></script>
+    <script src="js/script.js"></script>
+    
+</body>
+</html>

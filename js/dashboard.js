@@ -3,6 +3,7 @@ if(sessionStorage.getItem("logged") !== "true") { window.location.href = "login.
 
 let levels = [];
 let pendingDelete = null;
+let editingIndex = null;
 
 function loadLevels() {
     const stored = localStorage.getItem("myDemonList");
@@ -61,27 +62,57 @@ function addLevel() {
         form.style.borderColor = '#ff4444';
         form.style.boxShadow = '0 0 20px rgba(255,68,68,0.2)';
         setTimeout(() => { form.style.borderColor = ''; form.style.boxShadow = ''; }, 600);
-        return alert("Nombre y URL del video son obligatorios");
+        return;
     }
 
-    levels.push({ name, author, verifier, video, thumb, id: levelID });
-    renderAdminList(document.getElementById('adminSearch').value);
-    document.querySelectorAll('#name, #author, #verifier, #ytUrl, #thumbUrl, #levelID').forEach(i => i.value = "");
-    document.getElementById('thumbPreview').innerHTML = '<div class="thumb-placeholder">Vista previa</div>';
+    if (editingIndex !== null) {
+        levels[editingIndex] = { name, author, verifier, video, thumb, id: levelID };
+        const form = document.querySelector('.form-section');
+        form.style.borderColor = 'var(--warning)';
+        form.style.boxShadow = '0 0 20px rgba(255,170,0,0.15)';
+        setTimeout(() => { form.style.borderColor = ''; form.style.boxShadow = ''; }, 800);
+    } else {
+        levels.push({ name, author, verifier, video, thumb, id: levelID });
+        const form = document.querySelector('.form-section');
+        form.style.borderColor = 'var(--success)';
+        form.style.boxShadow = '0 0 20px rgba(0,255,136,0.15)';
+        setTimeout(() => { form.style.borderColor = ''; form.style.boxShadow = ''; }, 800);
+    }
 
-    const form = document.querySelector('.form-section');
-    form.style.borderColor = 'var(--success)';
-    form.style.boxShadow = '0 0 20px rgba(0,255,136,0.15)';
-    setTimeout(() => { form.style.borderColor = ''; form.style.boxShadow = ''; }, 800);
+    cancelEdit();
+    renderAdminList(document.getElementById('adminSearch').value);
 }
 
 function editLevel(index) {
     const lvl = levels[index];
-    const newName = prompt("Editar nombre del nivel:", lvl.name);
-    if (newName && newName.trim() !== lvl.name) {
-        lvl.name = newName.trim();
-        renderAdminList(document.getElementById('adminSearch').value);
-    }
+    document.getElementById('name').value = lvl.name;
+    document.getElementById('author').value = lvl.author || '';
+    document.getElementById('verifier').value = lvl.verifier || '';
+    document.getElementById('ytUrl').value = lvl.video || '';
+    document.getElementById('thumbUrl').value = lvl.thumb || '';
+    document.getElementById('levelID').value = lvl.id || '';
+    previewThumb();
+
+    editingIndex = index;
+    document.getElementById('addBtn').textContent = 'GUARDAR CAMBIOS';
+    document.getElementById('addBtn').style.background = 'var(--warning)';
+    document.getElementById('addBtn').style.color = '#111';
+    document.getElementById('addBtn').style.borderColor = 'var(--warning)';
+    document.getElementById('cancelEdit').style.display = 'inline-block';
+
+    document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelEdit() {
+    editingIndex = null;
+    document.querySelectorAll('#name, #author, #verifier, #ytUrl, #thumbUrl, #levelID').forEach(i => i.value = "");
+    document.getElementById('thumbPreview').innerHTML = '<div class="thumb-placeholder">Vista previa</div>';
+    const btn = document.getElementById('addBtn');
+    btn.textContent = 'AÑADIR A LA LISTA';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+    document.getElementById('cancelEdit').style.display = 'none';
 }
 
 function move(index, direction) {
