@@ -6,7 +6,9 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: #0a0a0f;
+    background:
+        linear-gradient(145deg, #080f1e 0%, #0a1818 35%, #070e18 70%, #0a0a12 100%);
+    background-attachment: fixed;
     color: #e0e0e0;
     min-height: 100vh;
     overflow-x: hidden;
@@ -22,9 +24,9 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 12px 30px;
-    background: rgba(10, 10, 15, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(8, 12, 20, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 .nav-logo {
@@ -42,7 +44,7 @@ body {
 
 .btn-login {
     padding: 8px 22px;
-    border-radius: 8px;
+    border-radius: 10px;
     background: linear-gradient(135deg, #00d4ff, #0099cc);
     color: #0a0a0f;
     text-decoration: none;
@@ -51,11 +53,12 @@ body {
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.15);
 }
 
 .btn-login:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
 }
 
 .hero {
@@ -77,18 +80,25 @@ body {
 }
 
 .hero-card {
-    position: relative;
     width: 100%;
     max-width: 420px;
-    padding: 36px;
-    border-radius: 20px;
-    background: linear-gradient(145deg, rgba(20, 20, 30, 0.9), rgba(10, 10, 15, 0.95));
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 40px 36px;
+    border-radius: 24px;
+    background: rgba(8, 14, 22, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
     text-align: center;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s, background 0.3s, box-shadow 0.3s;
     animation: heroFadeIn 1s ease forwards;
     overflow: hidden;
+}
+
+.hero-card:hover {
+    transform: translateY(-10px) scale(1.015);
+    border-color: rgba(0, 212, 255, 0.1);
+    background: rgba(10, 18, 28, 0.8);
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.35), 0 0 40px rgba(0, 212, 255, 0.03);
 }
 
 .hero-card-link {
@@ -176,21 +186,6 @@ body {
     margin-top: 8px;
 }
 
-.hero-card::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, #00d4ff, transparent, #00d4ff);
-    opacity: 0;
-    transition: opacity 0.4s;
-    z-index: -1;
-}
-
-.hero-card:hover::before {
-    opacity: 1;
-}
-
 .hero-card:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 0 60px rgba(0, 212, 255, 0.15);
@@ -261,26 +256,27 @@ body {
     align-items: center;
     gap: 10px;
     margin-top: 30px;
-    padding: 12px 28px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.5);
+    padding: 14px 30px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    color: rgba(255, 255, 255, 0.4);
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 400;
     overflow: hidden;
     font-family: 'Russo One', sans-serif;
-    transition: all 0.3s;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
     animation: heroFadeIn 1s ease 0.15s both;
 }
 
 .btn-github:hover {
     color: #e0e0e0;
-    border-color: rgba(0, 212, 255, 0.3);
-    background: rgba(0, 212, 255, 0.06);
-    transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.12);
+    background: rgba(0, 212, 255, 0.03);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 .btn-github .shimmer-overlay {
@@ -319,7 +315,7 @@ body {
     font-size: 1.8rem;
     font-weight: 400;
     margin-bottom: 30px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.4);
     font-family: 'Russo One', sans-serif;
 }
 
@@ -336,15 +332,16 @@ body {
 }
 
 .more-card {
-    padding: 16px 30px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 18px 30px;
+    border-radius: 16px;
+    background: rgba(8, 14, 22, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
     color: rgba(255, 255, 255, 0.25);
     font-size: 1rem;
     font-weight: 400;
     cursor: default;
-    transition: all 0.3s;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
     animation: heroFadeIn 0.8s ease both;
     display: flex;
     align-items: center;
@@ -358,15 +355,15 @@ body {
 
 .more-card.active {
     color: #e0e0e0;
-    border-color: rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.12);
     cursor: pointer;
 }
 
 .more-card.active:hover {
-    background: rgba(0, 212, 255, 0.08);
-    border-color: rgba(0, 212, 255, 0.4);
-    transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+    background: rgba(0, 212, 255, 0.04);
+    border-color: rgba(0, 212, 255, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 .more-card:nth-child(1) { animation-delay: 0.4s; }
@@ -379,7 +376,8 @@ body {
 footer {
     text-align: center;
     padding: 30px 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    background: rgba(8, 12, 20, 0.5);
     animation: heroFadeIn 1s ease 0.6s both;
 }
 
@@ -424,19 +422,6 @@ footer .socials a:hover {
     pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    .hero-card:hover { transform: none; }
-    .hero-card:hover img { filter: drop-shadow(0 0 20px rgba(0,212,255,0.3)); }
-    .btn-login:hover { transform: none; }
-    .btn-github:hover { transform: none; }
-    .more-card.active:hover { transform: none; }
-    .hero, .hero-card, .btn-github, .more-section, footer { animation: none !important; opacity: 1 !important; }
-}
 
 @media (max-width: 768px) {
     .navbar { padding: 10px 16px; }
@@ -447,7 +432,7 @@ footer .socials a:hover {
     .hero-card { padding: 28px 20px; max-width: 380px; }
     .hero-card h2 { font-size: 1.2rem; letter-spacing: 1px; }
     .hero-card-link .rl-icon { width: 80px; height: 80px; }
-    .btn-github { margin-top: 24px; padding: 10px 22px; font-size: 0.82rem; }
+    .btn-github { margin-top: 24px; padding: 12px 24px; font-size: 0.82rem; }
     .more-section { padding: 30px 14px 60px; }
     .more-section h2 { font-size: 1.4rem; }
     .more-card { padding: 12px 22px; font-size: 0.85rem; }
@@ -458,7 +443,7 @@ footer .socials a:hover {
     .navbar { padding: 8px 12px; }
     .nav-logo { font-size: 1.1rem; letter-spacing: 1px; }
     .hero { padding: 80px 10px 40px; }
-    .hero-card { padding: 22px 14px; max-width: 100%; }
+    .hero-card { padding: 24px 14px; max-width: 100%; }
     .hero-card img { width: 85%; }
     .hero-card h2 { font-size: 1rem; }
     .hero-card p { font-size: 0.75rem; }

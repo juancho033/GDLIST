@@ -29,6 +29,8 @@
                     <button class="range-btn" data-min="20" data-max="30">20–30</button>
                     <button class="range-btn" data-min="30" data-max="40">30–40</button>
                     <button class="range-btn" data-min="40" data-max="50">40–50</button>
+                    <button class="range-btn" data-min="50" data-max="62">50–62</button>
+                    <button class="range-btn" data-min="62" data-max="75">62–75</button>
                 </div>
             </div>
             <div class="config-group">
@@ -64,11 +66,27 @@
                 <div class="result-badge" id="resultBadge">
                     <span class="result-position" id="resultPosition">#1</span>
                 </div>
-                <div class="result-thumb" id="resultThumb">
-                    <img src="" alt="">
+                <div class="result-video" id="resultVideo">
+                    <div class="result-showcase-frame" id="showcaseFrame" style="display:none">
+                        <iframe id="showcaseIframe" width="320" height="180" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="result-no-video" id="resultNoVideo" style="display:none">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        <span>No hay video disponible</span>
+                    </div>
                 </div>
                 <h2 id="resultName">—</h2>
                 <p class="result-creator" id="resultCreator">by —</p>
+                <div class="result-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Requisito</span>
+                        <span class="detail-value" id="resultRequirement">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">ID del Nivel</span>
+                        <span class="detail-value detail-id" id="resultLevelId" onclick="copyRouletteID(this)">—</span>
+                    </div>
+                </div>
                 <div class="result-actions">
                     <a class="btn-spin btn-info" id="btnViewInfo" href="#" target="_blank">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>

@@ -5,7 +5,8 @@
         thumb: 'https://i.ytimg.com/vi/CELNmHwln_c/mqdefault.jpg',
         author: 'CairoX',
         verifier: '[67] Zoink',
-        id: '119544028'
+        id: '119544028',
+        showcase: 'CdUFRfR-GvI'
     },
     {
         name: 'Flamewall',
@@ -13,7 +14,8 @@
         thumb: 'https://i.ytimg.com/vi/x4Io4zkWVRw/mqdefault.jpg',
         author: 'Narwall',
         verifier: '[400] CuatrocientosYT',
-        id: '126242564'
+        id: '126242564',
+        showcase: 'hLgBZpUqCc8'
     },
     {
         name: 'Amethyst',
@@ -21,7 +23,8 @@
         thumb: 'https://i.ytimg.com/vi/4lfkzz1VCbA/mqdefault.jpg',
         author: 'iMist',
         verifier: '[WBT] wPopoff',
-        id: '119550490'
+        id: '119550490',
+        showcase: "WJuudvdF8c8"
     },
     {
         name: 'Tidal Wave',
@@ -29,7 +32,8 @@
         thumb: 'https://i.ytimg.com/vi/9fsZ014qB3s/mqdefault.jpg',
         author: 'OniLink',
         verifier: '[67] Zoink',
-        id: '86407629'
+        id: '86407629',
+        showcase: 'P9Ps-pGLTq0'
     },
     {
         name: 'ORBIT',
@@ -45,7 +49,8 @@
         thumb: 'https://i.ytimg.com/vi/EztneTPp5CU/mqdefault.jpg',
         author: 'Kiba',
         verifier: '[67] Zoink',
-        id: '109780665'
+        id: '109780665',
+        showcase: 'HWvtEGxotH8'
     },
     {
         name: 'Quanteuse processing',
@@ -61,7 +66,8 @@
         thumb: 'https://i.ytimg.com/vi/20fYiqLAo_E/mqdefault.jpg',
         author: 'Akunakunn',
         verifier: 'eastshark',
-        id: '110816181'
+        id: '110816181',
+        showcase: 'b0t_oW29Mw4'
     },
     {
         name: 'Every End',

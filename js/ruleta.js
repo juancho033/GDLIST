@@ -1,5 +1,13 @@
 const demons = typeof DB_LEVELS !== 'undefined' ? DB_LEVELS : [];
 
+function getDefaultRequirement(pos) {
+    if (pos <= 5) return '5%';
+    if (pos <= 10) return '10%';
+    if (pos <= 25) return '15%';
+    if (pos <= 50) return '25%';
+    return '40%';
+}
+
 function getSegments(min, max) {
     const list = [];
     for (let i = min; i <= max; i++) {
@@ -11,6 +19,9 @@ function getSegments(min, max) {
                 position: i,
                 thumb: d.thumb || '',
                 video: d.video || '',
+                id: d.id || '',
+                showcase: d.showcase || '',
+                requirement: d.requirement || getDefaultRequirement(i),
             });
         }
     }
@@ -34,7 +45,11 @@ const rangeLabel = document.getElementById('rangeLabel');
 const resultPosition = document.getElementById('resultPosition');
 const resultName = document.getElementById('resultName');
 const resultCreator = document.getElementById('resultCreator');
-const resultThumbImg = document.querySelector('#resultThumb img');
+const showcaseFrame = document.getElementById('showcaseFrame');
+const showcaseIframe = document.getElementById('showcaseIframe');
+const resultNoVideo = document.getElementById('resultNoVideo');
+const resultRequirement = document.getElementById('resultRequirement');
+const resultLevelId = document.getElementById('resultLevelId');
 const btnViewInfo = document.getElementById('btnViewInfo');
 const toast = document.getElementById('toast');
 
@@ -94,8 +109,8 @@ function spin() {
     const winIdx = Math.floor(Math.random() * n);
     const targetRepeat = 3;
     const targetCardIdx = targetRepeat * n + winIdx;
-    const firstCard = slotTrack.querySelector('.slot-card');
-    const cardH = firstCard ? firstCard.offsetHeight : 130;
+    const cards = slotTrack.querySelectorAll('.slot-card');
+    const cardH = cards.length ? cards[0].offsetHeight : 130;
 
     const middleOffset = Math.floor(slotViewport.offsetHeight / cardH / 2);
     const endY = (targetCardIdx - middleOffset) * cardH;
@@ -107,25 +122,53 @@ function spin() {
 
     slotTrack.style.transform = 'translateY(0)';
 
+    // Remove any previous scale transforms
+    cards.forEach(c => c.style.transform = '');
+
+    function applyPerspective(y, intensity) {
+        const vpHeight = slotViewport.offsetHeight;
+        const vpCenter = vpHeight / 2;
+        for (let i = 0; i < cards.length; i++) {
+            const cardCenter = (i + 0.5) * cardH - y;
+            const dist = Math.abs(cardCenter - vpCenter);
+            const ratio = dist / vpCenter;
+            const scale = 1 - Math.min(ratio, 1) * 0.3 * intensity;
+            cards[i].style.transform = `scale(${scale})`;
+        }
+    }
+
     function animate(time) {
         const elapsed = time - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 4);
         const y = startY + totalDist * eased;
         slotTrack.style.transform = `translateY(${-y}px)`;
+        const speed = 4 * Math.pow(1 - progress, 3);
+        const fadeIn = 1 - Math.min(speed / 4, 1);
+        const intensity = fadeIn * fadeIn;
+        applyPerspective(y, intensity);
 
         if (progress < 1) {
             state.animFrame = requestAnimationFrame(animate);
         } else {
             slotTrack.style.transform = `translateY(${-endY}px)`;
-            state.isSpinning = false;
-            highlightWinner(winIdx);
-            document.getElementById('btnSpinAgain').disabled = false;
-            setTimeout(() => showResult(winIdx), 500);
+            slotTrack.style.setProperty('--settle-y', `-${endY}px`);
+            slotTrack.style.animation = 'slotSettle 0.5s ease-out forwards';
+            slotTrack.addEventListener('animationend', () => {
+                slotTrack.style.animation = '';
+                state.isSpinning = false;
+                highlightWinner(winIdx);
+                document.getElementById('btnSpinAgain').disabled = false;
+                setTimeout(() => showResult(winIdx), 500);
+            }, { once: true });
         }
     }
 
     state.animFrame = requestAnimationFrame(animate);
+}
+
+function clearShowcaseVideo() {
+    if (showcaseIframe) showcaseIframe.src = '';
 }
 
 function showResult(idx) {
@@ -133,15 +176,38 @@ function showResult(idx) {
     resultPosition.textContent = '#' + d.position;
     resultName.textContent = d.name;
     resultCreator.textContent = 'by ' + d.author;
-    resultThumbImg.src = d.thumb || '';
-    resultThumbImg.alt = d.name;
+    resultRequirement.textContent = d.requirement;
+    resultLevelId.textContent = d.id;
+    resultLevelId.dataset.id = d.id;
+
+    if (d.showcase) {
+        showcaseFrame.style.display = 'block';
+        resultNoVideo.style.display = 'none';
+        showcaseIframe.src = 'https://www.youtube.com/embed/' + d.showcase + '?rel=0&autoplay=1&loop=1&playlist=' + d.showcase;
+    } else {
+        showcaseFrame.style.display = 'none';
+        resultNoVideo.style.display = 'flex';
+        showcaseIframe.src = '';
+    }
+
     btnViewInfo.href = 'list.html?level=' + d.position;
     resultOverlay.style.display = 'flex';
     resultOverlay.classList.remove('result-exit');
 }
 
+function copyRouletteID(el) {
+    const id = el.dataset.id;
+    if (!id) return;
+    navigator.clipboard.writeText(id).then(() => {
+        const orig = el.textContent;
+        el.textContent = '✓ Copiado';
+        setTimeout(() => { el.textContent = orig; }, 1200);
+    }).catch(() => {});
+}
+
 function showConfig() {
     if (state.animFrame) { cancelAnimationFrame(state.animFrame); state.isSpinning = false; }
+    clearShowcaseVideo();
     resultOverlay.classList.add('result-exit');
     setTimeout(() => { resultOverlay.style.display = 'none'; }, 300);
     slotViewport.classList.remove('slot-enter');
@@ -158,10 +224,11 @@ function showSlot() {
     configPanel.style.transform = 'translateY(-30px)';
     setTimeout(() => {
         configPanel.style.display = 'none';
-        slotSection.style.display = 'flex';
         buildTrack(state.segments);
         slotTrack.style.transform = 'translateY(0)';
+        slotTrack.style.animation = '';
         slotViewport.classList.remove('slot-enter');
+        slotSection.style.display = 'flex';
         void slotViewport.offsetWidth;
         slotViewport.classList.add('slot-enter');
     }, 350);
@@ -240,11 +307,14 @@ document.getElementById('btnSpin').addEventListener('click', () => {
 
 document.getElementById('btnSpinAgain').addEventListener('click', () => {
     document.getElementById('btnSpinAgain').disabled = true;
+    clearShowcaseVideo();
     resultOverlay.classList.add('result-exit');
     setTimeout(() => {
         resultOverlay.style.display = 'none';
         buildTrack(state.segments);
         slotTrack.style.transform = 'translateY(0)';
+        slotTrack.style.animation = '';
+        slotTrack.querySelectorAll('.slot-card').forEach(c => c.style.transform = '');
         setTimeout(() => spin(), 400);
     }, 300);
 });

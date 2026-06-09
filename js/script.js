@@ -5,6 +5,7 @@ const closeBtn = document.querySelector('.close-btn');
 
 let demonsData = [];
 let player = null;
+let showcasePlayer = null;
 let currentDemon = null;
 let currentRank = null;
 
@@ -119,7 +120,15 @@ function renderCards() {
         wrapper.appendChild(card);
     });
     container.appendChild(wrapper);
-    setTimeout(initShimmer, 300);
+    // Remove animation after it completes so tab switching doesn't re-trigger it
+    const totalDelay = demonsData.length * 40 + 500;
+    setTimeout(() => {
+        document.querySelectorAll('.demon-card').forEach(card => {
+            card.style.animation = 'none';
+            card.style.opacity = '1';
+        });
+    }, totalDelay);
+    setTimeout(initShimmer, totalDelay + 100);
 }
 
 function switchList(list) {
@@ -171,14 +180,10 @@ function openModal(demon, rank) {
     if (!videoId) return;
 
     modal.classList.remove('minimized');
-
     currentDemon = demon;
     currentRank = rank;
 
-    if (player) {
-        player.destroy();
-        player = null;
-    }
+    if (player) { player.destroy(); player = null; }
 
     player = new YT.Player('ytPlayer', {
         videoId: videoId,
@@ -205,6 +210,71 @@ function openModal(demon, rank) {
     `;
 
     modal.style.display = 'block';
+
+    if (demon.showcase && demon.showcase.trim() !== '') {
+        setTimeout(openShowcaseMini, 600);
+    }
+}
+
+function openShowcaseMini() {
+    const modal = document.getElementById('modal');
+    if (modal.style.display !== 'block') return;
+    const mini = document.getElementById('showcaseMiniPlayer');
+    const id = currentDemon.showcase;
+    if (!id) return;
+    if (showcasePlayer) { showcasePlayer.destroy(); showcasePlayer = null; }
+
+    mini.style.display = 'block';
+    showcasePlayer = new YT.Player('showcasePlayerContainer', {
+        videoId: id,
+        width: 320, height: 180,
+        playerVars: { autoplay: 1, controls: 0, rel: 0, loop: 1, playlist: id },
+        events: {
+            onReady: function () {
+                showcasePlayer.setVolume(30);
+            },
+            onStateChange: function (e) {
+                const btn = document.getElementById('scPlayBtn');
+                if (e.data === YT.PlayerState.PLAYING) {
+                    if (btn) btn.textContent = '⏸';
+                } else if (e.data === YT.PlayerState.PAUSED) {
+                    if (btn) btn.textContent = '▶';
+                }
+            }
+        }
+    });
+    updateShowcaseBtn();
+}
+
+function closeShowcaseMini() {
+    const mini = document.getElementById('showcaseMiniPlayer');
+    if (showcasePlayer) { showcasePlayer.destroy(); showcasePlayer = null; }
+    mini.style.display = 'none';
+}
+
+function toggleShowcasePlay() {
+    if (!showcasePlayer) return;
+    const btn = document.getElementById('scPlayBtn');
+    if (showcasePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+        showcasePlayer.pauseVideo();
+        btn.textContent = '▶';
+    } else {
+        showcasePlayer.playVideo();
+        btn.textContent = '⏸';
+    }
+}
+
+function setShowcaseVolume(val) {
+    if (showcasePlayer) showcasePlayer.setVolume(parseInt(val));
+}
+
+function updateShowcaseBtn() {
+    const btn = document.getElementById('scPlayBtn');
+    if (showcasePlayer && showcasePlayer.getPlayerState && showcasePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+        btn.textContent = '⏸';
+    } else {
+        btn.textContent = '▶';
+    }
 }
 
 function closeModal() {
@@ -284,6 +354,7 @@ function scheduleNextShimmer() {
 
 function closeWithAnim() {
     if (modal.style.display === 'none') return;
+    closeShowcaseMini();
     modal.classList.add('closing');
     setTimeout(() => {
         modal.classList.remove('closing');
@@ -299,9 +370,13 @@ searchInput.addEventListener('input', (e) => {
 });
 
 closeBtn.onclick = () => {
+    const showcaseMini = document.getElementById('showcaseMiniPlayer');
+    if (showcaseMini.style.display !== 'none') {
+        closeShowcaseMini();
+    }
     if (modal.classList.contains('minimized')) {
         closeMiniPlayer();
-    } else if (player && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING) {
+    } else if (player) {
         minimizePlayer();
     } else {
         closeWithAnim();
@@ -317,4 +392,13 @@ window.onclick = (e) => {
         }
     }
 };
+
+let scrollTimer;
+window.addEventListener('scroll', () => {
+    document.body.classList.add('scrolling');
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+        document.body.classList.remove('scrolling');
+    }, 100);
+}, { passive: true });
 

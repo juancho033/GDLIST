@@ -13,7 +13,7 @@
     <header class="header">
         <a href="index.html" class="logo" style="text-decoration:none;"><span style="color: white;">GD</span><span>LIST</span> <small style="color: white;">Alpha</small></a>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Buscar por nivel o creador...">
+            <input type="text" id="searchInput" placeholder="Buscar por nivel, verificador o creador...">
         </div>
         <div class="header-right">
             <a href="index.html" class="btn-staff" style="margin-right:8px;">Inicio</a>
@@ -49,6 +49,18 @@
                 <button class="mini-btn" onclick="maximizePlayer()" title="Maximizar">⛶</button>
                 <button class="mini-btn" onclick="closeMiniPlayer()" title="Cerrar">✕</button>
             </div>
+        </div>
+    </div>
+
+    <div id="showcaseMiniPlayer" class="showcase-mini-player" style="display:none">
+        <div class="showcase-mini-header">
+            <span class="showcase-mini-label">▶ SHOWCASE</span>
+            <button class="showcase-mini-close" onclick="closeShowcaseMini()" title="Cerrar showcase">✕</button>
+        </div>
+        <div id="showcasePlayerContainer" class="showcase-mini-video"></div>
+        <div class="showcase-mini-controls">
+            <button id="scPlayBtn" class="mini-btn" onclick="toggleShowcasePlay()">⏸</button>
+            <input type="range" id="scVolume" class="mini-volume" min="0" max="100" value="100" oninput="setShowcaseVolume(this.value)">
         </div>
     </div>
 
